@@ -414,7 +414,7 @@ function searchAndDivide(movies, str) {
   return container;
 }
 
-console.log(searchAndDivide(movies, "Avengers"));...
+console.log(searchAndDivide(movies, "Avengers"));
 
 // function searchAndDivide(movies, str) {  //METODO ALTERNATIVO!!
 //   const match = movies.filter((movie) => movie.Title.toLowerCase().includes(str.toLowerCase()));
