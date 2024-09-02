@@ -122,7 +122,7 @@ console.log(deleteOne("Ferrari", false));
 */
 
 function onlyLetters(str) {
-  return str.replace(/\d+/g, "");
+  return str.replace(/\d+/g, "").replace("  ", " "); //il secondo replace elimina lo spazio!
 }
 
 console.log(onlyLetters("i love my 5 dogs"));
@@ -132,7 +132,7 @@ console.log(onlyLetters("i love my 5 dogs"));
 */
 
 function isThisAnEmail(str) {
-  if (str.includes("@")) {
+  if (str.includes("@" && ".com")) {
     return true;
   } else {
     return false;
@@ -372,15 +372,15 @@ const moviesofLastMillennium = onlyInLastMillennium(movies);
 console.log(moviesofLastMillennium);
 
 /* ESERCIZIO 16
-  Scrivi una funzione chiamata "sumAllTheYears" che ritorna la somma di tutti gli anni in cui sono stati prodotti i film contenuti nell'array "movies" fornito.
+  Scrivi una funzione chiamata "sumAllTheYears" che ritorna la somma di tutti gli anni in cui sono stati prodotti i film 
+  contenuti nell'array "movies" fornito.
 */
 
-const sumAllTheYears = function () {
-  movies.reduce((accumulator, currentValue) => (accumulator += parseInt(currentValue.Year)), 0);
-};
+function sumAllTheYears() {
+  return movies.reduce((accumulator, currentValue) => (accumulator += parseInt(currentValue.Year)), 0);
+}
 
-const sumOfMovies = sumAllTheYears();
-console.log(sumOfMovies);
+console.log(sumAllTheYears());
 
 /* ESERCIZIO 17
   Scrivi una funzione chiamata "searchByTitle" che riceve una stringa come parametro e ritorna 
