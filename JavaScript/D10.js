@@ -174,8 +174,19 @@ console.log(whatDayIsIt());
 */
 
 function rollTheDices(num) {
-  dice();
+  const dices = {
+    sum: 0,
+    values: [],
+  };
+  for (let i = 0; i < num; i++) {
+    const newNum = dice();
+
+    dices.sum += newNum;
+    dices.values.push(newNum);
+  }
+  return dices;
 }
+console.log(rollTheDices(3));
 
 /* ESERCIZIO 9
   Scrivi una funzione chiamata "howManyDays" che riceve una data come parametro e ritorna il numero di giorni trascorsi da tale data.
@@ -215,10 +226,18 @@ console.log(isTodayMyBirthday());
   deve ritornare l'oggetto fornito dopo aver eliminato
   in esso la proprietà chiamata come la stringa passata come secondo parametro.
 */
-const newObj = {
+const person = {
   name: "Danilo",
   surname: "Fumuso",
 };
+
+const deleteProp = (obj, str) => {
+  delete obj[str];
+
+  return obj;
+};
+
+console.log(deleteProp(person, "surname"));
 
 const movies = [
   {
@@ -387,16 +406,6 @@ console.log(sumAllTheYears());
   i film nell'array "movies" fornito che la contengono nel titolo.
 */
 
-function searchByTitle(srt) {
-  for (let i = 0; i < movies.length; i++) {
-    if (movies[i].Title.includes("srt")) {
-      return movies[i];
-    }
-  }
-}
-
-console.log(searchByTitle("Avengers"));
-
 /* ESERCIZIO 18
   Scrivi una funzione chiamata "searchAndDivide" che riceve una stringa come parametro e ritorna un oggetto contenente due array: "match" e "unmatch".
   "match" deve includere tutti i film dell'array "movies" fornito che contengono la stringa fornita all'interno del proprio titolo, mentre "unmatch" deve includere tutti i rimanenti.
@@ -553,4 +562,16 @@ AddClasstoTrs();
   Crea una funzione chiamata "isItPrime" che riceve un numero come parametro e ritorna true se il numero fornito è un numero primo.
 */
 
-/* Questo array viene usato per gli esercizi. Non modificarlo. */
+const isItPrime = (num) => {
+  if (num <= 1) {
+    return false;
+  }
+  for (let i = 2; i <= Math.sqrt(num); i++) {
+    if (num % 2 === 0) {
+      return false;
+    }
+  }
+  return true;
+};
+
+console.log(isItPrime());
