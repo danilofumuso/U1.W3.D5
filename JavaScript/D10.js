@@ -132,7 +132,7 @@ console.log(onlyLetters("i love my 5 dogs"));
 */
 
 function isThisAnEmail(str) {
-  if (str.includes("@" && ".com")) {
+  if (str.includes("@") && str.includes(".")) {
     return true;
   } else {
     return false;
