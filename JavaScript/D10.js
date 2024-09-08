@@ -22,7 +22,7 @@ const sum = c;
   Crea una variabile chiamata "random" e assegnaci un numero casuale tra 0 e 20 (deve essere generato dinamicamente a ogni esecuzione).
 */
 
-let num = Math.floor(Math.random() * 20);
+let random = Math.floor(Math.random() * 20);
 
 /* ESERCIZIO C
   Crea una variabile chiamata "me" e assegnaci un oggetto contenente le seguenti proprietà: 
@@ -92,12 +92,19 @@ function whoIsBigger(a, b) {
 */
 
 function splitMe(str) {
-  const arrayOfWords = [];
-  arrayOfWords.push(str.split(" "));
+  let words = str.split(" "); //split trasforma una stringa in un array e lo ritorna! Tra parentesi lo spazio vuoto divide ogni parola divisa da uno spazio, senza lo spazio avrebbe diviso le parole lettera per lettera.
 
-  return arrayOfWords;
+  const arrayOfWordsCapitalized = [];
+  for (let i = 0; i < words.length; i++) {
+    let firstLetter = words[i].charAt(0).toUpperCase();
+    let remaingLetters = words[i].slice(1);
+    let completeWord = firstLetter + remaingLetters;
+    arrayOfWordsCapitalized.push(completeWord);
+  }
+
+  return arrayOfWordsCapitalized;
 }
-console.log(splitMe("I love videogames"));
+splitMe("I love videogames");
 
 /* ESERCIZIO 4
   Crea una funzione chiamata "deleteOne" che riceve una stringa e un booleano come parametri.
@@ -105,15 +112,12 @@ console.log(splitMe("I love videogames"));
 */
 
 function deleteOne(str, bool) {
-  if (bool === true) {
+  if (bool) {
     return str.slice(1);
   } else {
     return str.slice(0, -1);
   }
 }
-
-console.log(deleteOne("Ferrari", true));
-console.log(deleteOne("Ferrari", false));
 
 /* ESERCIZIO 5
   Crea una funzione chiamata "onlyLetters" che riceve una stringa come parametro e la ritorna eliminando tutte le cifre numeriche.
@@ -124,8 +128,6 @@ console.log(deleteOne("Ferrari", false));
 function onlyLetters(str) {
   return str.replace(/\d+/g, "").replace("  ", " "); //il secondo replace elimina lo spazio!
 }
-
-console.log(onlyLetters("i love my 5 dogs"));
 
 /* ESERCIZIO 6
   Crea una funzione chiamata "isThisAnEmail" che riceve una stringa come parametro e ritorna true se la stringa è un valido indirizzo email.
@@ -139,9 +141,6 @@ function isThisAnEmail(str) {
   }
 }
 
-console.log(isThisAnEmail("danilofumuso@gmail.com"));
-console.log(isThisAnEmail("danilofumusogmail.com"));
-
 /* ESERCIZIO 7
   Scrivi una funzione chiamata "whatDayIsIt" che ritorna il giorno della settimana corrente.
 */
@@ -149,15 +148,16 @@ console.log(isThisAnEmail("danilofumusogmail.com"));
 function whatDayIsIt() {
   const today = new Date();
   const dayIndex = today.getDay();
-  const days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
+
+  const days = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
   for (let i = 0; i < days.length; i++) {
-    if (dayIndex === days.indexOf(days[i]) + 1) {
+    if (dayIndex === days.indexOf(days[i])) {
       return days[i];
     }
   }
 }
 
-console.log(whatDayIsIt());
+whatDayIsIt();
 
 /* ESERCIZIO 8
   Scrivi una funzione chiamata "rollTheDices" che riceve un numero come parametro.
@@ -186,7 +186,7 @@ function rollTheDices(num) {
   }
   return dices;
 }
-console.log(rollTheDices(3));
+rollTheDices(3);
 
 /* ESERCIZIO 9
   Scrivi una funzione chiamata "howManyDays" che riceve una data come parametro e ritorna il numero di giorni trascorsi da tale data.
@@ -199,23 +199,25 @@ function howManyDays(date) {
   const daysInBetween = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // trasformo i millisecondi in giorni
   return daysInBetween;
 }
-console.log(howManyDays("Feb 6,2024"));
+howManyDays("Feb 6,2024");
 
 /* ESERCIZIO 10
   Scrivi una funzione chiamata "isTodayMyBirthday" che deve ritornare true se oggi è il tuo compleanno, falso negli altri casi.
 */
 
-function isTodayMyBirthday() {
+function isTodayMyBirthday(dateToCheck) {
   const today = new Date();
-  const todayDayAndMonth = today.getDate() + today.getMonth().toString();
-  const myBirthday = new Date("Feb 6, 1991");
-  const myBirthdayDayAndMonth = myBirthday.getDate() + myBirthday.getMonth().toString();
+  const todayDayAndMonth = today.getDate().toString() + today.getMonth().toString();
+  const myBirthday = new Date(dateToCheck);
+  const myBirthdayDayAndMonth = myBirthday.getDate().toString() + myBirthday.getMonth().toString();
 
   if (todayDayAndMonth === myBirthdayDayAndMonth) {
     return true;
+  } else {
+    return false;
   }
 }
-console.log(isTodayMyBirthday());
+console.log(isTodayMyBirthday("Feb 6, 1991 01:00")); //01:00 è la mezzanotte
 
 // Arrays & Oggetti
 
@@ -232,12 +234,16 @@ const person = {
 };
 
 const deleteProp = (obj, str) => {
-  delete obj[str];
+  if (obj[str]) {
+    delete obj[str];
+  } else {
+    console.log("non puoi cancellare una proprietà che non esiste!");
+  }
 
   return obj;
 };
 
-console.log(deleteProp(person, "surname"));
+deleteProp(person, "surname");
 
 const movies = [
   {
@@ -347,15 +353,15 @@ const movies = [
 
 function newestMovie(moviesArray) {
   let theNewestMovie = moviesArray[0];
-  moviesArray.forEach((moviesArrayObj) => {
-    if (parseInt(moviesArrayObj.Year) > parseInt(theNewestMovie.Year)) {
-      theNewestMovie = moviesArrayObj;
+  moviesArray.forEach((movie) => {
+    if (parseInt(movie.Year) > parseInt(theNewestMovie.Year)) {
+      theNewestMovie = movie;
     }
   });
   return theNewestMovie;
 }
 
-console.log(newestMovie(movies));
+newestMovie(movies);
 
 /* ESERCIZIO 13
   Scrivi una funzione chiamata countMovies che ritorna il numero di film contenuti nell'array "movies" fornito.
@@ -366,8 +372,6 @@ function countMovies(moviesArray) {
 }
 
 const numbersOfFilm = countMovies(movies);
-console.log(numbersOfFilm);
-
 /* ESERCIZIO 14
   Scrivi una funzione chiamata "onlyTheYears" che crea un array con solamente gli anni di uscita dei film contenuti nell'array "movies" fornito.
 */
@@ -377,7 +381,16 @@ function onlyTheYears(moviesArray) {
 }
 
 const yearsArray = onlyTheYears(movies);
-console.log(yearsArray);
+
+// function onlyTheYears(moviesArray) {
+//   const yearsArray = [];
+//   for (let i = 0; i < moviesArray; i++) {
+//     yearsArray.push(moviesArray[i].Year);
+//   }
+//   return yearsArray;
+// }
+
+onlyTheYears(movies);
 
 /* ESERCIZIO 15
   Scrivi una funzione chiamata "onlyInLastMillennium" che ritorna solamente i film prodotto nel millennio scorso contenuti nell'array "movies" fornito.
@@ -388,7 +401,6 @@ function onlyInLastMillennium(moviesArray) {
 }
 
 const moviesofLastMillennium = onlyInLastMillennium(movies);
-console.log(moviesofLastMillennium);
 
 /* ESERCIZIO 16
   Scrivi una funzione chiamata "sumAllTheYears" che ritorna la somma di tutti gli anni in cui sono stati prodotti i film 
@@ -396,15 +408,31 @@ console.log(moviesofLastMillennium);
 */
 
 function sumAllTheYears() {
-  return movies.reduce((accumulator, currentValue) => (accumulator += parseInt(currentValue.Year)), 0);
+  return movies.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.Year), 0);
 }
 
-console.log(sumAllTheYears());
+sumAllTheYears();
 
 /* ESERCIZIO 17
   Scrivi una funzione chiamata "searchByTitle" che riceve una stringa come parametro e ritorna 
   i film nell'array "movies" fornito che la contengono nel titolo.
 */
+
+function searchByTitle(str) {
+  let nuovoArray = movies.filter((movie) => movie.Title.toUpperCase().includes(str.toUpperCase()));
+  if (typeof nuovoArray !== "undefined" && nuovoArray.length > 0) {
+    return nuovoArray;
+  } else {
+    return 1;
+  }
+}
+
+let check = searchByTitle("war");
+if (check !== 1) {
+  check;
+} else {
+  alert("Non è stato possibile trovare il film richiesto!");
+}
 
 /* ESERCIZIO 18
   Scrivi una funzione chiamata "searchAndDivide" che riceve una stringa come parametro e ritorna un oggetto contenente due array: "match" e "unmatch".
@@ -423,7 +451,7 @@ function searchAndDivide(movies, str) {
   return container;
 }
 
-console.log(searchAndDivide(movies, "Avengers"));
+searchAndDivide(movies, "Avengers");
 
 // function searchAndDivide(movies, str) {  //METODO ALTERNATIVO!!
 //   const match = movies.filter((movie) => movie.Title.toLowerCase().includes(str.toLowerCase()));
@@ -444,7 +472,7 @@ function removeIndex(index) {
   return movies;
 }
 
-console.log(removeIndex(0));
+removeIndex(0);
 
 // DOM (nota: gli elementi che selezionerai non si trovano realmente nella pagina)
 
@@ -476,7 +504,7 @@ const selection = selectTds("tr>td");
 const printTds = function () {
   const Tds = selectTds("tr>td");
   Tds.forEach((td) => {
-    console.log(td.innerText);
+    td.innerText;
   });
 };
 
